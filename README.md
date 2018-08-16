@@ -1,2 +1,2 @@
 # HNRE
-Codes and datasets for our paper "Neural Knowledge Acquisition via Mutual Attention between Knowledge Graph and Text"
+Codes and datasets for our paper "Hierarchical Relation Extraction with Coarse-to-Fine Grained Attention"
