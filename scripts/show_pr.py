@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 model = 'cnn'
 
 label = './data/all_true_label.npy'
-score = sys.argv[0]
+score = sys.argv[1]
 y_true = np.load(label)
 y_score = np.load(score)
 
