@@ -11,7 +11,7 @@ The model is implemented using tensorflow. The versions of packages used are sho
 
 ## Initialization
 
-Original raw text corpus data is in `./raw_data`. Run
+First unzip the `./raw_data/data.zip` and put all the files under `./raw_data`. Once the original raw text corpus data is in `./raw_data`, run
 
     python scripts/initial.py
 
@@ -34,9 +34,9 @@ The logits are saved at `./outputs/logits/`. To see the PR curve, run the follow
     
     python scripts/show_pr.py [path/to/generated .npy logits file from evaluation]
 
-## Trained models
+## Pretrained models
 
-The trained models is saved at `./outputs/ckpt/`. To directly evaluate on them, run the following command:
+The pretrained models is already saved at `./outputs/ckpt/`. To directly evaluate on them, run the following command:
 
     PYTHONPATH=. python scripts/evaluate.py --mode [test method: pr, pone, ptwo, pall] --test-single --test_start_ckpt 0 --model [cnn_hier or pcnn_hier]
 
