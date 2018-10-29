@@ -4,7 +4,7 @@ Codes and datasets for our paper "Hierarchical Relation Extraction with Coarse-t
 If you use the code, please cite the following [paper](http://aclweb.org/anthology/D18-1247):
 
 ```
- @inproceedings{han2018openke,
+ @inproceedings{han2018hierarchicalRE,
    title={Hierarchical Relation Extraction with Coarse-to-Fine Grained Attention},
    author={Han, Xu and Yu, Pengfei and Liu, Zhiyuan and Sun, Maosong and Li, Peng},
    booktitle={Proceedings of EMNLP},
