@@ -1,6 +1,18 @@
 # HNRE
 Codes and datasets for our paper "Hierarchical Relation Extraction with Coarse-to-Fine Grained Attention"
 
+If you use the code, please cite the following [paper](http://aclweb.org/anthology/D18-1247):
+
+```
+ @inproceedings{han2018openke,
+   title={Hierarchical Relation Extraction with Coarse-to-Fine Grained Attention},
+   author={Han, Xu and Yu, Pengfei and Liu, Zhiyuan and Sun, Maosong and Li, Peng},
+   booktitle={Proceedings of EMNLP},
+   year={2018}
+ }
+```
+
+
 ## Requirements
 
 The model is implemented using tensorflow. The versions of packages used are shown below.
