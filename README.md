@@ -57,7 +57,10 @@ And PR curves can be generated same way as above.
 ## Baseline models
 
 [+ATT,+ONE](https://github.com/thunlp/NRE )
+
 [+ADV](https://github.com/jxwuyi/AtNRE)
+
 [+SL](https://github.com/tyliupku/soft-label-RE)
+
 Some of other baselines can be found in [other baselines](https://github.com/tyliupku/soft-label-RE/tree/master/emnlp17_plot).
 
