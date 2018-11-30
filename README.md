@@ -53,3 +53,11 @@ The pretrained models is already saved at `./outputs/ckpt/`. To directly evaluat
     PYTHONPATH=. python scripts/evaluate.py --mode [test method: pr, pone, ptwo, pall] --test-single --test_start_ckpt 0 --model [cnn_hier or pcnn_hier]
 
 And PR curves can be generated same way as above.
+
+## Baseline models
+
+[+ATT,+ONE](https://github.com/thunlp/NRE )
+[+ADV](https://github.com/jxwuyi/AtNRE)
+[+SL](https://github.com/tyliupku/soft-label-RE)
+Some of other baselines can be found in [other baselines](https://github.com/tyliupku/soft-label-RE/tree/master/emnlp17_plot).
+
