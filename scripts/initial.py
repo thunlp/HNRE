@@ -332,7 +332,7 @@ def init_test_files_pn(name):
             if len(entity_pair) > 0:
                 first_t = entity_scope[-1][0]
                 last_t = entity_scope[-1][1]
-                if last_t - first_t > 0:
+                if last_t - first_t >= 0:
                     entity_pair_pall.append(entity_pair[-1])
                     entity_pair_palli.append(len(entity_pair) - 1)
                     entity_scope_pall.append([sall, sall + last_t - first_t])
@@ -346,15 +346,21 @@ def init_test_files_pn(name):
     f.close()
     first_t = entity_scope[-1][0]
     last_t = entity_scope[-1][1]
-    if last_t - first_t > 0:
+    if last_t - first_t >= 0:
         entity_pair_pall.append(entity_pair[-1])
         entity_pair_palli.append(len(entity_pair) - 1)
         entity_scope_pall.append([sall, sall + last_t - first_t])
         sall = sall + 1 + last_t - first_t
     index_pall = np.hstack([np.arange(entity_scope[x][0], entity_scope[x][1] + 1) for x in entity_pair_palli])
     index_pone = np.hstack([np.random.randint(entity_scope[x][0], entity_scope[x][1] + 1) for x in entity_pair_palli])
-    index_ptwo = np.hstack([np.random.choice(np.arange(entity_scope[x][0], entity_scope[x][1] + 1), 2, replace=False)
-        for x in entity_pair_palli])
+    index_ptwo = []
+    for x in entity_pair_palli:
+        if entity_scope[x][0] == entity_scope[x][1]:
+            index_ptwo.append(np.array([entity_scope[x][0],entity_scope[x][0]]))
+        else:
+            index_ptwo.append(np.random.choice(np.arange(entity_scope[x][0], entity_scope[x][1] + 1), 2, replace=False))
+
+    index_ptwo = np.hstack(index_ptwo)
     arrays = {}
 
     arrays['entity_pair'] = np.array(entity_pair)
