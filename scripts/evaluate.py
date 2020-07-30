@@ -56,7 +56,6 @@ os.environ['CUDA_VISIBLE_DEVICES'] = FLAGS.gpu
 def main(_):
 
     pter = printer.Printer()
-
     pter('reading test data')
 
     init_file = FLAGS.data_path+'initial_vectors/' + ('init_vec_pcnn' if FLAGS.model[:4].lower() == 'pcnn' and not FLAGS.use_baseline else 'init_vec')
@@ -65,7 +64,26 @@ def main(_):
     mode = FLAGS.mode
     export_path = FLAGS.data_path
 
-    if mode == 'pr':
+    if mode == 'hit_k_100' or mode == 'hit_k_200':
+        f = open("raw_data/relation2id.txt", "r")
+        content = f.readlines()[1:]
+        id2rel = {}
+        for i in content:
+            rel, rid = i.strip().split()
+            id2rel[(int)(rid)] = rel
+        f.close()
+        
+        fewrel = {}
+        if mode == 'hit_k_100':
+            f = open("data/rel100.txt", "r")
+        else:
+            f = open("data/rel200.txt", "r")
+        content = f.readlines()
+        for i in content:
+            fewrel[i.strip()] = 1
+        f.close()
+
+    if mode == 'pr' or mode == 'hit_k_100' or mode == 'hit_k_200':
         test_instance_triple = np.load(export_path + 'test_entity_pair.npy')
         test_instance_scope = np.load(export_path + 'test_entity_scope.npy')
         test_len = np.load(export_path + 'test_len.npy')
@@ -90,7 +108,6 @@ def main(_):
     index_non_zero = np.sum(exclude_na_label, 0) > 0
 
     print('reading test data finished')
-
     print('entity pairs     : %d' % (len(test_instance_triple)))
     print('sentences        : %d' % (len(test_len)))
     print('relations        : %d' % (FLAGS.num_classes))
@@ -137,6 +154,7 @@ def main(_):
     else:
         iteration_list = range(start_step, end_step+1, FLAGS.test_step)
 
+
     for iters in iteration_list:
 
         if FLAGS.test_use_step == False:
@@ -181,13 +199,64 @@ def main(_):
         exclude_na_output = stack_output[:,1:]
         exclude_na_flatten_output = np.reshape(stack_output[:,1:],(-1))
 
-        if mode == 'pr':
+        if mode == 'hit_k_100' or mode == 'hit_k_200':
+            ss = 0
+            ss10 = 0
+            ss15 = 0
+            ss20 = 0
+
+            ss_rel = {}
+            ss10_rel = {}
+            ss15_rel = {}
+            ss20_rel = {}
+
+            for j, label in zip(exclude_na_output, exclude_na_label):
+                score = None
+                num = None
+                for ind, ll in enumerate(label):
+                    if ll > 0:
+                        score = j[ind]
+                        num = ind
+                        break
+                if num is None:
+                    continue
+                if id2rel[num+1] in fewrel:
+                    ss += 1.0
+                    mx = 0
+                    for sc in j:
+                        if sc > score:
+                            mx = mx + 1
+                    if not num in ss_rel:
+                        ss_rel[num] = 0
+                        ss10_rel[num] = 0
+                        ss15_rel[num] = 0
+                        ss20_rel[num] = 0
+                    ss_rel[num] += 1.0
+                    if mx < 10:
+                        ss10+=1.0
+                        ss10_rel[num] += 1.0
+                    if mx < 15:
+                        ss15+=1.0
+                        ss15_rel[num] += 1.0
+                    if mx < 20:
+                        ss20+=1.0
+                        ss20_rel[num] += 1.0
+            print ("mi")
+            print (ss10/ss)
+            print (ss15/ss)
+            print (ss20/ss)
+            print ("ma")
+            print ((np.array([ss10_rel[i]/ss_rel[i]  for i in ss_rel])).mean())
+            print ((np.array([ss15_rel[i]/ss_rel[i]  for i in ss_rel])).mean())
+            print ((np.array([ss20_rel[i]/ss_rel[i]  for i in ss_rel])).mean())
+
+        elif mode == 'pr':
             m = average_precision_score(exclude_na_flatten_label, exclude_na_flatten_output)
             M = average_precision_score(exclude_na_label[:,index_non_zero], exclude_na_output[:,index_non_zero], average='macro')
             np.save(FLAGS.logits_path+FLAGS.model+str(iters), exclude_na_flatten_output)
             print(m, M)
         else:
-            order = np.argsort(-exclude_na_flatten_output)
+            order = np.argsort(-exclude_na_flatten_output)            
             print(np.mean(exclude_na_flatten_label[order[:100]]))
             print(np.mean(exclude_na_flatten_label[order[:200]]))
             print(np.mean(exclude_na_flatten_label[order[:300]]))
