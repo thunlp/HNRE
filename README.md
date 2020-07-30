@@ -50,9 +50,47 @@ The logits are saved at `./outputs/logits/`. To see the PR curve, run the follow
 
 The pretrained models is already saved at `./outputs/ckpt/`. To directly evaluate on them, run the following command:
 
-    PYTHONPATH=. python scripts/evaluate.py --mode [test method: pr, pone, ptwo, pall] --test-single --test_start_ckpt 0 --model [cnn_hier or pcnn_hier]
+    PYTHONPATH=. python scripts/evaluate.py --mode [test method: pr, pone, ptwo, pall] --test_single --test_start_ckpt 0 --model [cnn_hier or pcnn_hier]
 
 And PR curves can be generated same way as above.
+
+## The results of the released checkpoints
+
+As this toolkit is reconstructed based on the original code and the checkpoints are retrained on this toolkit, the results of the released checkpoints are comparable with the reported ones.
+
+### The Main Experiments
+
+* pr
+
+|  Model   | Micro  |  Macro |
+|  ----  | ----  | ---  |
+| CNN+HATT  | 41.8 | 16.5  |
+| PCNN+HATT  | 42.0 | 17.1  |
+
+
+### The Auxiliary Experiments
+
+* pone
+
+|  P@N   | 100  |  200 | 300| Mean|
+|  ----  | ----  | ---  | ---   | ---  |
+| CNN+HATT  | 84.0 | 76.5  |  70.7 |  77.1 |
+| PCNN+HATT  | 82.0 | 75.0  | 71.0 | 76.0|
+
+* ptwo
+
+|  P@N   | 100  |  200 | 300| Mean|
+|  ----  | ----  | ---  | ---   | ---  |
+| CNN+HATT  | 83.0 | 79.0  |  72.3 |  78.1 |
+| PCNN+HATT  | 82.0 | 77.0  | 75.3 | 78.1|
+
+* pall
+
+|  P@N   | 100  |  200 | 300| Mean|
+|  ----  | ----  | ---  | ---   | ---  |
+| CNN+HATT  | 82.0 | 80.0  |  74.7 |  78.9 |
+| PCNN+HATT  | 81.0 | 80.5  | 76.0 | 79.2|
+
 
 ## Baseline models
 
